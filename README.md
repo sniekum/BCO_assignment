@@ -117,7 +117,7 @@ Describe what changes you would need to make to the code to implement BCO(0). An
 Implement and test BCO(0) by modifying the starter code in `mountain_car_bco.py`. This starter code is identical to the BC code, except: (1) the function collect_random_interaction_data has been added to help with learning the inverse dynamics model; (2) a new argument for number of inverse dynamics training iterations has been added; and (3) some comments have been added about where to use the inverse dynamics model instead of ground-truth actions.  You may need to experiment with different neural network sizes and training iterations to get the inverse dynamics model to work well. Report how well it works and what you tried to get it to work, including stats on the accuracy of prediction when tested on the demonstration data (training should be done with the random interaction data, not the demonstrations).
 
 ## Submission
-Prepare a PDF report with your answers to the questions ((preferably typeset in LaTeX) and submit the PDF along with your code in a zip file. Submit via Canvas.
+Prepare a PDF report with your answers to the questions (preferably typeset in LaTeX) and submit the PDF along with your code in a zip file. Submit via Canvas.
 
 ### Acknowledgement
 Based on an assignment originally created by Daniel S. Brown. 
