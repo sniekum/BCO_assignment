@@ -57,7 +57,7 @@ In MountainCar there are three actions: 0 (accelerate left), 1 (don't accelerate
 
 The goal of MountainCar is to have the car drive to the flag on the top of the hill to the right. The car gets -1 reward for every step and gets 200 steps to try and get out of the hill. Because the reward is -1 per timestep the optimal policy is to get out of the valley in as few timesteps as possible.
 
-<strong>You will need to type up your responses (preferably typeset in LaTeX) to the following parts of the homework and submit your responses and code via Canvas. You are encouraged to talk about the homework with other students and share resources, but please do not share or copy code. As for code, submit the edited mountain_car_bco.py file. </strong>
+<strong>You will need to type up your responses (preferably typeset in LaTeX) to the following parts of the homework and submit your responses and code via Gradescope. You are encouraged to talk about the homework with other students and share resources, but please do not share or copy code. As for code, submit the edited mountain_car_bco.py file. </strong>
 
 ## Part 1:
 
@@ -117,7 +117,7 @@ Describe what changes you would need to make to the code to implement BCO(0). An
 Implement and test BCO(0) by modifying the starter code in `mountain_car_bco.py`. This starter code is identical to the BC code, except: (1) the function collect_random_interaction_data has been added to help with learning the inverse dynamics model; (2) a new argument for number of inverse dynamics training iterations has been added; and (3) some comments have been added about where to use the inverse dynamics model instead of ground-truth actions.  You may need to experiment with different neural network sizes and training iterations to get the inverse dynamics model to work well. Report how well it works and what you tried to get it to work, including stats on the accuracy of prediction when tested on the demonstration data (training should be done with the random interaction data, not the demonstrations).
 
 ## Submission
-Prepare a PDF report with your answers to the questions (preferably typeset in LaTeX) and submit the PDF along with your code in a zip file. Submit via Canvas.
+Prepare a PDF report with your answers to the questions (preferably typeset in LaTeX) and submit the PDF along with your code in a zip file. Submit via Gradescope.
 
 ### Acknowledgement
 Based on an assignment originally created by Daniel S. Brown. 
