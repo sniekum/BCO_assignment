@@ -9,7 +9,7 @@ Next navigate to the repository
 ```
 cd BCO_assignment
 ```
-then install the dependencies by running
+then install the dependencies and create a Conda environment called imitation_learning by running
 ```
 conda env create -f environment.yml
 ```
@@ -17,7 +17,7 @@ This should install [Open AI Gym](https://www.gymlibrary.dev/) and [PyTorch](htt
 
 Before you can run any of the code in this repo you need the libraries installed (what you just did with the above command, and you need to activate the environment
 ```
-conda activate BCO_assignment
+conda activate imitation_learning
 ```
 
 To test the code run
@@ -33,7 +33,7 @@ conda env create -f environment_basic.yml
 ```
 then 
 ```
-conda activate BCO_assignment
+conda activate imitation_learning
 ```
 then
 ```
