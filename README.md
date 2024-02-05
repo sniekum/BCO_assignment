@@ -39,6 +39,10 @@ then
 ```
 pip install gym[classic_control,other]==0.25.2
 ```
+or on Mac OSX, try:
+```
+pip install 'gym[classic_control,other]'==0.25.2
+```
 and that ought to install everything needed in a more platform independent way.
 
 
@@ -111,7 +115,7 @@ python mountain_car_bc.py --num_demos 2
 What does the policy learn? Why might bad demonstrations be a problem? Briefly suggest one potential idea for making BC robust to bad demonstrations, as long as they are a minority of demonstrations.
 
 ## Part 6
-Describe what changes you would need to make to the code to implement BCO(0). Answer this question before starting Part 7.
+At a conceptual level, describe what changes you would need to make to the BC code to implement BCO(0), as described in the paper we read in class: https://arxiv.org/pdf/1805.01954.pdf. Answer this question before starting Part 7.
 
 ## Part 7
 Implement and test BCO(0) by modifying the starter code in `mountain_car_bco.py`. This starter code is identical to the BC code, except: (1) the function collect_random_interaction_data has been added to help with learning the inverse dynamics model; (2) a new argument for number of inverse dynamics training iterations has been added; and (3) some comments have been added about where to use the inverse dynamics model instead of ground-truth actions.  You may need to experiment with different neural network sizes and training iterations to get the inverse dynamics model to work well. Report how well it works and what you tried to get it to work, including stats on the accuracy of prediction when tested on the demonstration data (training should be done with the random interaction data, not the demonstrations).
