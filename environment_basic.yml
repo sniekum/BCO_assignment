@@ -1,8 +1,0 @@
-name: imitation_learning
-channels:
-  - defaults
-dependencies:
-  - python=3.9
-  - pytorch
-  - torchvision
-
