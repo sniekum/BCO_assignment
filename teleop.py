@@ -4,11 +4,12 @@ from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 
-import gym.error
-from gym import Env, logger
-from gym.core import ActType, ObsType
-from gym.error import DependencyNotInstalled
-from gym.logger import deprecation
+import gymnasium as gym
+import gymnasium.error
+from gymnasium import Env, logger
+from gymnasium.core import ActType, ObsType
+from gymnasium.error import DependencyNotInstalled
+from gymnasium.logger import deprecation
 
 try:
     import pygame
@@ -16,7 +17,7 @@ try:
     from pygame.event import Event
     from pygame.locals import VIDEORESIZE
 except ImportError:
-    raise gym.error.DependencyNotInstalled(
+    raise gymnasium.error.DependencyNotInstalled(
         "Pygame is not installed, run `pip install gym[classic_control]`"
     )
 
@@ -259,11 +260,12 @@ def play(
             done = False
             print("total reward", total_reward)
             total_reward = 0
-            obs = env.reset(seed=seed)
+            obs, _ = env.reset(seed=seed)
         else:
             action = key_code_to_action.get(tuple(sorted(game.pressed_keys)), noop)
             prev_obs = obs
-            obs, rew, done, info = env.step(action)
+            obs, rew, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
             total_reward += rew
             if callback is not None:
                 callback(prev_obs, obs, action, rew, done, info)
@@ -487,7 +489,7 @@ def collect_demos(
             f"but your environment render_mode = {env.render_mode}."
         )
 
-    obs = env.reset(seed=seed)
+    obs, _ = env.reset(seed=seed)
 
     if keys_to_action is None:
         if hasattr(env, "get_keys_to_action"):
@@ -526,13 +528,14 @@ def collect_demos(
             print("total reward", total_reward)
             total_reward = 0
             episodes += 1
-            obs = env.reset(seed=seed)
+            obs, _ = env.reset(seed=seed)
             
         else:
             steps += 1
             action = key_code_to_action.get(tuple(sorted(game.pressed_keys)), noop)
             prev_obs = obs
-            obs, rew, done, info = env.step(action)
+            obs, rew, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
             sas_pairs.append((prev_obs, action, obs))
             total_reward += rew
             if callback is not None:

@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import argparse
 import pygame
 from teleop import collect_demos
@@ -18,25 +18,28 @@ def collect_random_interaction_data(num_iters):
     next_states = []
     actions = []
 
+    env = gym.make('MountainCar-v0')
+
     for i in range(num_iters):
-        env = gym.make('MountainCar-v0')
-        obs = env.reset()
+        obs, _ = env.reset()    
         done = False
         while not done:
             a = env.action_space.sample()
-            next_obs, reward, done, info = env.step(a)
+            next_obs, reward, terminated, truncated, info = env.step(a)
+            done = terminated or truncated
             states.append(obs)
             next_states.append(next_obs)
             actions.append(a)
             obs = next_obs
-        env.close()
+    
+    env.close()
 
     return np.array(states), np.array(next_states), np.array(actions)
 
 
 def collect_human_demos(num_demos):
     mapping = {(pygame.K_LEFT,): 0, (pygame.K_RIGHT,): 2}
-    env = gym.make("MountainCar-v0",render_mode='single_rgb_array') 
+    env = gym.make("MountainCar-v0",render_mode='rgb_array') 
     demos = collect_demos(env, keys_to_action=mapping, num_demos=num_demos, noop=1)
     return demos
 
@@ -117,14 +120,15 @@ def evaluate_policy(pi, num_evals, human_render=True):
     for i in range(num_evals):
         done = False
         total_reward = 0
-        obs = env.reset()
+        obs, _ = env.reset()
         while not done:
             #take the action that the network assigns the highest logit value to
             #Note that first we convert from numpy to tensor and then we get the value of the 
             #argmax using .item() and feed that into the environment
             action = torch.argmax(pi(torch.from_numpy(obs).unsqueeze(0))).item()
             # print(action)
-            obs, rew, done, info = env.step(action)
+            obs, rew, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
             total_reward += rew
         print("reward for evaluation", i, total_reward)
         policy_returns.append(total_reward)
@@ -141,7 +145,7 @@ if __name__ == "__main__":
     parser.add_argument('--num_inv_dyn_iters', default = 1000, type=int, help="number of iterations to train inverse dynamics model")
     parser.add_argument('--num_evals', default=6, type=int, help="number of times to run policy after training for evaluation")
 
-     args = parser.parse_args()
+    args = parser.parse_args()
 
     #collect human demos
     demos = collect_human_demos(args.num_demos)
@@ -149,7 +153,7 @@ if __name__ == "__main__":
     #process demos
     obs, ground_truth_acts, next_obs = torchify_demos(demos)
 
-    # ADD CODE TO TRAIN INVERSE DYNAMICS MODEL AND ESTIMATE ACTIONS
+    # TODO: ADD CODE TO TRAIN INVERSE DYNAMICS MODEL AND ESTIMATE ACTIONS
     estimated_acts = inverse_dynamics(obs, next_obs, args.num_inv_dyn_iters)
 
     #train policy WITHOUT ground truth actions
@@ -158,4 +162,3 @@ if __name__ == "__main__":
 
     #evaluate learned policy
     evaluate_policy(pi, args.num_evals)
-

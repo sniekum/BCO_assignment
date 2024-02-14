@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import argparse
 import pygame
 from teleop import collect_demos
@@ -14,7 +14,7 @@ device = torch.device('cpu')
 
 def collect_human_demos(num_demos):
     mapping = {(pygame.K_LEFT,): 0, (pygame.K_RIGHT,): 2}
-    env = gym.make("MountainCar-v0",render_mode='single_rgb_array') 
+    env = gym.make("MountainCar-v0",render_mode='rgb_array') 
     demos = collect_demos(env, keys_to_action=mapping, num_demos=num_demos, noop=1)
     return demos
 
@@ -27,11 +27,7 @@ def torchify_demos(sas_pairs):
         states.append(s)
         actions.append(a)
         next_states.append(s2)
-
-    states = np.array(states)
-    actions = np.array(actions)
-    next_states = np.array(next_states)
-
+    
     obs_torch = torch.from_numpy(np.array(states)).float().to(device)
     obs2_torch = torch.from_numpy(np.array(next_states)).float().to(device)
     acs_torch = torch.from_numpy(np.array(actions)).long().to(device)
@@ -98,14 +94,15 @@ def evaluate_policy(pi, num_evals, human_render=True):
     for i in range(num_evals):
         done = False
         total_reward = 0
-        obs = env.reset()
+        obs, _ = env.reset()
         while not done:
             #take the action that the network assigns the highest logit value to
             #Note that first we convert from numpy to tensor and then we get the value of the 
             #argmax using .item() and feed that into the environment
             action = torch.argmax(pi(torch.from_numpy(obs).unsqueeze(0))).item()
             # print(action)
-            obs, rew, done, info = env.step(action)
+            obs, rew, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
             total_reward += rew
         print("reward for evaluation", i, total_reward)
         policy_returns.append(total_reward)

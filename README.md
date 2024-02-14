@@ -9,41 +9,13 @@ Next navigate to the repository
 ```
 cd BCO_assignment
 ```
-then install the dependencies and create a Conda environment called imitation_learning by running
+then install the dependencies and create a Conda environment called imitation_learning by running:
 ```
-conda env create -f environment.yml
-```
-This should install [Open AI Gym](https://www.gymlibrary.dev/) and [PyTorch](https://pytorch.org/get-started/locally/). Note that it will install the PyTorch cpu version so you don't need a GPU for these experiments and it is unlikely that having a GPU will help since we are dealing with low-dimensional state spaces and small neural networks.
-
-Before you can run any of the code in this repo you need the libraries installed (what you just did with the above command, and you need to activate the environment
-```
+conda create -n imitation_learning python=3.9 -y
 conda activate imitation_learning
-```
+pip install gymnasium pygame matplotlib torch
 
-To test the code run
 ```
-python test_gym.py
-```
-You should see a visualization of a car moving back and forth at the bottom of a valley.
-
-### Installation other platforms
-Platforms other than Ubuntu do not always work. However, if you want to try installing on another platform, use:
-```
-conda env create -f environment_basic.yml
-```
-then 
-```
-conda activate imitation_learning
-```
-then
-```
-pip install gym[classic_control,other]==0.25.2
-```
-or on Mac OSX, try:
-```
-pip install 'gym[classic_control,other]'==0.25.2
-```
-and that ought to install everything needed in a more platform independent way.
 
 
 ### PyTorch Primer
