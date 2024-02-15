@@ -13,8 +13,7 @@ then install the dependencies and create a Conda environment called imitation_le
 ```
 conda create -n imitation_learning python=3.9 -y
 conda activate imitation_learning
-pip install gymnasium pygame matplotlib torch
-
+pip install -r requirements.txt
 ```
 
 
