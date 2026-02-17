@@ -7,5 +7,6 @@ done = False
 while not done:
     observation, reward, terminated, truncated, info = env.step(env.action_space.sample())
     env.render()
+    done = terminated or truncated
     
 env.close()
